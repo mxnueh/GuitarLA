@@ -1,14 +1,33 @@
+import { useState, useEffect, useEffectEvent } from 'react'
 import Header from "./components/Header"
 import Guitar from "./components/Guitar"
+import { db } from "./data/db"
 
 function App() {
-  return (
+    const [auth, setAuth] = useState(false)
+    useEffect(() => {
+        if (auth) {
+            console.log('Usuario correctamente autenticado')
+        }
+ 
+        // console.log('Escuchando por auth')
+    }, [auth])
+
+    setTimeout(() => {
+        setAuth(true)
+    }, 3000)
+
+    return (
     <>
     <Header />
     <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
 
         <div className="row mt-5">
+            <Guitar />
+            <Guitar />
+            <Guitar />
+            <Guitar />
             <Guitar />
         </div>
     </main>
