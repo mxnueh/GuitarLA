@@ -1,21 +1,17 @@
-import { useState, useEffect, useEffectEvent } from 'react'
+import { useState } from 'react'
 import Header from "./components/Header"
 import Guitar from "./components/Guitar"
 import { db } from "./data/db"
 
 function App() {
-    const [auth, setAuth] = useState(false)
-    useEffect(() => {
-        if (auth) {
-            console.log('Usuario correctamente autenticado')
-        }
- 
-        // console.log('Escuchando por auth')
-    }, [auth])
+    const [guitars, setGuitars] = useState(db)  
 
-    setTimeout(() => {
-        setAuth(true)
-    }, 3000)
+    // Buena practica para cargar datos desde una API o base de datos, 
+    // pero como el arreglo ya esta importado, no es necesario usarlo
+
+    // useEffectt (() => {
+    // //     setGuitars(db)
+    // // }, [])
 
     return (
     <>
