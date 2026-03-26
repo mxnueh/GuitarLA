@@ -6,6 +6,8 @@ import { db } from "./data/db"
 function App() {
     const [guitars, setGuitars] = useState(db)  
     const [cart, setCart] = useState([])
+    const MAX_ITEM_QUANTITY = 5;
+    const MIN_ITEM_QUANTITY = 1;
 
     // Buena practica para cargar datos desde una API o base de datos, 
     // pero como el arreglo ya esta importado, no es necesario usarlo
@@ -30,6 +32,7 @@ function App() {
         const itemExists = cart.findIndex(cartItem => cartItem.id === item.id);
         
         if (itemExists >= 0) { //Existe en el carrito
+            if (cart[itemExists].quantity >= MAX_ITEM_QUANTITY) return; // Evita aumentar más allá del límite
             const updatedCart = [...cart]
             updatedCart[itemExists].quantity++; // Incrementa la cantidad
             setCart(updatedCart);
@@ -39,10 +42,36 @@ function App() {
         }
     }
 
+    function removeFromCart(itemId) {
+        setCart(cart.filter(cartItem => cartItem.id !== itemId));
+    }
+
+    function increaseQuantity(itemId) {
+        const updatedCart = cart.map(cartItem => {
+            if (cartItem.id === itemId && cartItem.quantity < MAX_ITEM_QUANTITY) {
+                return { ...cartItem, quantity: cartItem.quantity + 1 };
+            }
+            return cartItem;
+        });
+        setCart(updatedCart); 
+    }
+    function decreaseQuantity (itemId) {
+        const updatedCart = cart.map(cartItem => {
+            if (cartItem.id === itemId && cartItem.quantity > MIN_ITEM_QUANTITY) {
+                return { ...cartItem, quantity: cartItem.quantity - 1 };
+            }
+            return cartItem;
+        });
+        setCart(updatedCart);
+    }
+
     return (
     <>
     <Header 
     cart={cart}
+    removeFromCart={removeFromCart}
+    increaseQuantity={increaseQuantity}
+    decreaseQuantity={decreaseQuantity}
     />
     <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
