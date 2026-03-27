@@ -10,7 +10,7 @@ function App() {
         return localStorageCart ? JSON.parse(localStorageCart) : []
     }
 
-    const [guitars, setGuitars] = useState(db)  
+    const [guitars] = useState(db)  
     const [cart, setCart] = useState(initialCart)
     const MAX_ITEM_QUANTITY = 5;
     const MIN_ITEM_QUANTITY = 1;
