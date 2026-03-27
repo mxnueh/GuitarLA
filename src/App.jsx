@@ -1,13 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect, use } from 'react'
 import Header from "./components/Header"
 import Guitar from "./components/Guitar"
 import { db } from "./data/db"
 
 function App() {
+
+    const initialCart = () => {
+        const localStorageCart = localStorage.getItem('cart')
+        return localStorageCart ? JSON.parse(localStorageCart) : []
+    }
+
     const [guitars, setGuitars] = useState(db)  
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState(initialCart)
     const MAX_ITEM_QUANTITY = 5;
     const MIN_ITEM_QUANTITY = 1;
+
+    // Guarda los elementos en el localStorage cada vez que el carrito cambie,
+    // para mantener el estado del carrito entre sesiones
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart])
 
     // Buena practica para cargar datos desde una API o base de datos, 
     // pero como el arreglo ya esta importado, no es necesario usarlo
@@ -55,6 +67,7 @@ function App() {
         });
         setCart(updatedCart); 
     }
+
     function decreaseQuantity (itemId) {
         const updatedCart = cart.map(cartItem => {
             if (cartItem.id === itemId && cartItem.quantity > MIN_ITEM_QUANTITY) {
@@ -64,6 +77,7 @@ function App() {
         });
         setCart(updatedCart);
     }
+
     function clearCart() { 
         setCart([]);
     }
