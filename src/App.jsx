@@ -2,8 +2,11 @@ import { useState, useEffect, use } from 'react'
 import Header from "./components/Header"
 import Guitar from "./components/Guitar"
 import { db } from "./data/db"
+import { usecart } from './hooks/useCart'
 
 function App() {
+    const { auth, carrito } = usecart();
+    console.log(carrito);
 
     const initialCart = () => {
         const localStorageCart = localStorage.getItem('cart')
