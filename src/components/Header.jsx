@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 export default function Header ({cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart}) {
-    //State derivado
+    // State derivado
+    // El State derivado es un valor que se calcula a partir de otro estado, en este caso,
+    // el estado del carrito, para obtener información adicional como el total del carrito
+    // o si el carrito esta vacio.
+
     const isEmpty = useMemo(() => cart.length === 0, [cart]);
     const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.price * item.quantity), 0), [cart]);
 
